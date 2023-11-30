@@ -18,7 +18,7 @@ import tile_1 from "../../../assets/tile/tile_1.png";
 import tile_2 from "../../../assets/tile/tile_2.png";
 import tile_3 from "../../../assets/tile/tile_3.png";
 import tile_4 from "../../../assets/tile/tile_4.png";
-import { SignInLogo } from "../../../components/utils/SignInLogo";
+import { SignInLogo } from "../utils/SignInLogo";
 import UserProfileModal from "../marirong/modals/UserProfileModal";
 import PromptModal from "../marirong/modals/PromptModal";
 import {
