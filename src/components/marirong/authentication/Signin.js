@@ -110,9 +110,15 @@ const Signin = () => {
       signIn(submitData, (response) => {
         if (response.status == true) {
           let temp = { ...response.data };
-          temp["img_length"] = fileCount;
-          localStorage.setItem("credentials", JSON.stringify(temp));
-          window.location = "/opcen";
+            if (temp.profile.site_id === 2) {
+              setOpenPrompt(true)
+              setErrorPrompt(true)
+              setNotifMessage("This account is not allowed in this web application")
+            } else {
+              temp["img_length"] = fileCount;
+              localStorage.setItem("credentials", JSON.stringify(temp));
+              window.location = "/opcen";
+            }
         } else {
           setOpenPrompt(true);
           setErrorPrompt(true);

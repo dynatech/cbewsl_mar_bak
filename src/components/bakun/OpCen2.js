@@ -943,8 +943,8 @@ function OpCen2(props) {
 
   const generateDashboardData = () => {
     const temp_on_going_data = tempAlertGen;
-    // getCandidateAlert((data) => {
-    const { candidate_alerts, on_going, ewi_templates } = temp_on_going_data;
+    getCandidateAlert((data) => {
+    const { candidate_alerts, on_going, ewi_templates } = data;
     // setCandidateAlerts([JSON.parse(candidate_alerts)[1]]);
 
     const temp_candidate = JSON.parse(candidate_alerts);
@@ -970,7 +970,7 @@ function OpCen2(props) {
     } else {
       setCandidateAlerts(temp_candidate);
     }
-    // });
+    });
   };
 
   const generateMomsForValidation = () => {

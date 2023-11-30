@@ -23,6 +23,7 @@ import barangay_seal from "../../assets/bakun_barangay_seal.png";
 import lewc_seal from "../../assets/bak_lewc_seal.png";
 
 import { CBEWSL_SITE_NAME } from "../../host";
+import Swal from "sweetalert2";
 
 const Signin = () => {
   const [openModal, setOpenModal] = useState(false);
@@ -76,9 +77,17 @@ const Signin = () => {
       signIn(submitData, (response) => {
         if (response.status == true) {
           let temp = { ...response.data };
-          temp["img_length"] = fileCount;
-          localStorage.setItem("credentials", JSON.stringify(temp));
-          window.location = `${CBEWSL_SITE_NAME}/opcen`;
+            if (temp.profile.site_id === 0) {
+              Swal.fire({
+                icon: "error",
+                title: "Error!",
+                text: "This account is not allowed in this web application",
+              });
+            } else {
+              temp["img_length"] = fileCount;
+              localStorage.setItem("credentials", JSON.stringify(temp));
+              window.location = `${CBEWSL_SITE_NAME}/opcen`;
+            }
         } else {
           setOpenPrompt(true);
           setErrorPrompt(true);
