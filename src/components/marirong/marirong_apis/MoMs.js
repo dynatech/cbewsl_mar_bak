@@ -11,7 +11,6 @@ export const getFeatures = (callback) => {
 };
 
 export const getInstances = (callback) => {
-  let temp = "http://192.168.150.110:5000";
   axios
     .get(`${API_URL}/api/manifestations_of_movement/get_moms_instances/mar`)
     .then((response) => {

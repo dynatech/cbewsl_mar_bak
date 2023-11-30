@@ -1,5 +1,5 @@
 // const url = "https://paranasdynaslope.com";
-const url = "http://192.168.150.235";
+const url = "https://dynaslope.phivolcs.dost.gov.ph";
 export const host = `${url}:5000`;
 export const base_url = url;
 export const storage_host = `${url}:8000`;
