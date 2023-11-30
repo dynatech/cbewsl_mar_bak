@@ -4,12 +4,10 @@ import { SnackbarProvider } from "notistack";
 
 import ChartRenderingContainer from "./components/Chart_rendering/Container";
 import Signin from "./components/authentication/Signin";
-import OpCen from "./components/bakun/OpCen";
 import OpCen2 from "./components/bakun/OpCen2";
 import Events from "./components/bakun/Events";
 import Communication from "./components/bakun/Communication";
 import Analysis from "./components/bakun/Analysis";
-import Assessment from "./components/bakun/Assessment";
 import BakunHeader from "./components/utils/BakunHeader";
 import CRA from "./components/bakun/CRA";
 import GroundData from "./components/bakun/GroundData";
@@ -26,18 +24,45 @@ import ProfileSettings from "./components/utils/ProfileSettings";
 import Bulletin from "./components/utils/Bulletin";
 import "./components/bakun/css/sandbox.css";
 import "./components/bakun/css/embla.css";
+// marirong components
+import MarirongHeader from "./components/marirong/utils/MarirongHeader";
+import MarirongSignin from "./components/marirong/authentication/Signin";
+import MarirongOpcen from "./components/marirong/marirong/OpCen2";
+import MarirongEvents from "./components/marirong/marirong/Events";
+import MarirongCommunication from "./components/marirong/marirong/Communication";
+import MarirongAnalysis from "./components/marirong/marirong/Analysis";
+import MarirongCRA from "./components/marirong/marirong/CRA";
+import MarirongGroundData from "./components/marirong/marirong/GroundData";
+import MarirongCaV from "./components/marirong/marirong/CaV";
+import MarirongRainfall from "./components/marirong/marirong/Rainfall";
+import MarirongSubsurface from "./components/marirong/marirong/Subsurface";
+import MarirongSurficial from "./components/marirong/marirong/Surficial";
+import MarirongEarthquake from "./components/marirong/marirong/Earthquake";
+import MarirongSurficialMarkers from "./components/marirong/marirong/SurficialMarkers";
+import MarirongMoms from "./components/marirong/marirong/Moms";
+import MarirongFeedback from "./components/marirong/marirong/Feedback";
+import MarirongChangePassword from "./components/marirong/utils/ChangePassword";
+import MarirongProfileSettings from "./components/marirong/utils/ProfileSettings";
+import MarirongBulletin from "./components/marirong/utils/Bulletin";
 
 import { CBEWSL_SITE_NAME } from "./host";
 
 const App = (props) => {
   const [nav, setNav] = useState(null);
+  const [site, setSite] = useState("");
   const Header = () => {
     let location = window.location.pathname;
-    if (
-      location !== `${CBEWSL_SITE_NAME}/signin` &&
-      location !== `/${CBEWSL_SITE_NAME}`
-    ) {
-      return <BakunHeader />;
+    console.log(location);
+    if (location !== `/${CBEWSL_SITE_NAME}` || location !== `/`) {
+      if (localStorage.getItem("credentials") !== null) {
+        if (location.includes("bakun")) {
+          setSite("bakun");
+          return <BakunHeader />;
+        } else {
+          setSite("marirong");
+          return <MarirongHeader />;
+        }
+      }
     }
   };
 
@@ -51,8 +76,19 @@ const App = (props) => {
       <SnackbarProvider>
         <Router>
           {nav}
+          {/* {site === "" && (
+            <Routes>
+              <Route exact path="" element={<MarirongSignin />} />
+              <Route exact path={`/signin`} element={<MarirongSignin />} />
+              <Route exact path={`/feedback`} element={<MarirongFeedback />} />
+            </Routes>
+          )} */}
+
           <Routes>
-            <Route exact path={`${CBEWSL_SITE_NAME}`} element={<Signin />} />
+            <Route exact path="" element={<MarirongSignin />} />
+            <Route exact path={`/signin`} element={<MarirongSignin />} />
+            <Route exact path={`/feedback`} element={<MarirongFeedback />} />
+            <Route exact path={`/${CBEWSL_SITE_NAME}`} element={<Signin />} />
             <Route
               exact
               path={`${CBEWSL_SITE_NAME}/signin`}
@@ -63,23 +99,18 @@ const App = (props) => {
               path={`${CBEWSL_SITE_NAME}/feedback`}
               element={<Feedback />}
             />
-            <Route
-              path="/lpa/:chart_type"
-              element={<ChartRenderingContainer />}
-            />
             {/* <Route
               path="*"
               element={
-                <main style={{padding: '1rem'}}>
-                  <h2>Webpage notafefe found</h2>
+                <main style={{ padding: "1rem" }}>
+                  <h2>Webpage not found</h2>
                 </main>
               }
             /> */}
           </Routes>
 
-          {localStorage.getItem("credentials") != null ? (
+          {localStorage.getItem("credentials") != null && (
             <Routes>
-              {/* <Route exact path={`${CBEWSL_SITE_NAME}`} element={<OpCen2 />} /> */}
               <Route
                 exact
                 path={`${CBEWSL_SITE_NAME}/opcen`}
@@ -105,11 +136,6 @@ const App = (props) => {
                 path={`${CBEWSL_SITE_NAME}/analysis`}
                 element={<Analysis />}
               />
-              {/* <Route
-                exact
-                path={`${CBEWSL_SITE_NAME}/assessment`}
-                element={<Assessment />}
-              /> */}
               <Route exact path={`${CBEWSL_SITE_NAME}/cra`} element={<CRA />} />
               <Route
                 exact
@@ -157,13 +183,56 @@ const App = (props) => {
                 path={`${CBEWSL_SITE_NAME}/moms`}
                 element={<Moms />}
               />
+
+              <Route exact path={`/opcen`} element={<MarirongOpcen />} />
+              <Route exact path={`/bulletin`} element={<MarirongBulletin />} />
+              <Route exact path={`/events`} element={<MarirongEvents />} />
+              <Route
+                exact
+                path={`/communication`}
+                element={<MarirongCommunication />}
+              />
+              <Route exact path={`/analysis`} element={<MarirongAnalysis />} />
+              <Route exact path={`/cra`} element={<MarirongCRA />} />
+              <Route
+                exact
+                path={`/ground_data`}
+                element={<MarirongGroundData />}
+              />
+              <Route exact path={`/cav`} element={<MarirongCaV />} />
+              <Route exact path={`/rainfall`} element={<MarirongRainfall />} />
+              <Route
+                exact
+                path={`/subsurface`}
+                element={<MarirongSubsurface />}
+              />
+              <Route
+                exact
+                path={`/surficial`}
+                element={<MarirongSurficial />}
+              />
+              <Route
+                exact
+                path={`/earthquake`}
+                element={<MarirongEarthquake />}
+              />
+              <Route
+                exact
+                path={`/change-password`}
+                element={<MarirongChangePassword />}
+              />
+              <Route
+                exact
+                path={`/profile-settings`}
+                element={<MarirongProfileSettings />}
+              />
+              <Route
+                exact
+                path={`/surficial_markers`}
+                element={<MarirongSurficialMarkers />}
+              />
+              <Route exact path={`/moms`} element={<MarirongMoms />} />
             </Routes>
-          ) : (
-            window.location.pathname != `/${CBEWSL_SITE_NAME}` &&
-            window.location.pathname != `${CBEWSL_SITE_NAME}` &&
-            window.location.pathname != `${CBEWSL_SITE_NAME}/signin` &&
-            window.location.pathname != `${CBEWSL_SITE_NAME}/feedback` &&
-            (window.location = `/${CBEWSL_SITE_NAME}`)
           )}
         </Router>
       </SnackbarProvider>
