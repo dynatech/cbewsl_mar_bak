@@ -50,10 +50,11 @@ import { CBEWSL_SITE_NAME } from "./host";
 const App = (props) => {
   const [nav, setNav] = useState(null);
   const [site, setSite] = useState("");
+  const [isSignedIn, setIsSignedIn] = useState(false);
   const Header = () => {
     let location = window.location.pathname;
     console.log(location);
-    if (location !== `/${CBEWSL_SITE_NAME}` || location !== `/`) {
+    if (location !== `/${CBEWSL_SITE_NAME}` || location !== `/` && isSignedIn) {
       if (localStorage.getItem("credentials") !== null) {
         if (location.includes("bakun")) {
           setSite("bakun");
@@ -63,12 +64,21 @@ const App = (props) => {
           return <MarirongHeader />;
         }
       }
+    } else {
+      return ""
     }
   };
 
   useEffect(() => {
-    Header();
-    setNav(Header());
+    if (window.location.pathname === `/${CBEWSL_SITE_NAME}` || window.location.pathname === `/`){
+      localStorage.clear("credentials")
+      setIsSignedIn(false)
+    }
+  }, [window.location.pathname]);
+
+  useEffect(() => {
+      Header();
+      setNav(Header());
   }, [props]);
 
   return (
@@ -76,6 +86,7 @@ const App = (props) => {
       <SnackbarProvider>
         <Router>
           {nav}
+          {/* {Header()} */}
           {/* {site === "" && (
             <Routes>
               <Route exact path="" element={<MarirongSignin />} />
