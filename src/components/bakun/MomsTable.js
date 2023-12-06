@@ -94,7 +94,7 @@ function Row(props) {
                     <TableCell>Narrative</TableCell>
                     <TableCell>Report Timestamp</TableCell>
                     <TableCell>Reporter</TableCell>
-                    <TableCell>Validator</TableCell>
+                    {/* <TableCell>Validator</TableCell> */}
                     <TableCell>Remarks</TableCell>
                     <TableCell>Alert Level</TableCell>
                   </TableRow>
@@ -107,8 +107,8 @@ function Row(props) {
                       </TableCell>
                       <TableCell>{element.narrative.narrative}</TableCell>
                       <TableCell>{element.narrative.timestamp}</TableCell>
-                      <TableCell>{`${element.reporter.first_name} ${element.reporter.last_name}`}</TableCell>
-                      <TableCell>{`${element.validator.first_name} ${element.validator.last_name}`}</TableCell>
+                      <TableCell>Community</TableCell>
+                      {/* <TableCell>{`${element.validator.first_name} ${element.validator.last_name}`}</TableCell> */}
                       <TableCell>{element.remarks}</TableCell>
                       <TableCell>{element.op_trigger}</TableCell>
                     </TableRow>

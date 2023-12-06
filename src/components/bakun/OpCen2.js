@@ -944,32 +944,37 @@ function OpCen2(props) {
   const generateDashboardData = () => {
     const temp_on_going_data = tempAlertGen;
     getCandidateAlert((data) => {
-    const { candidate_alerts, on_going, ewi_templates } = data;
-    // setCandidateAlerts([JSON.parse(candidate_alerts)[1]]);
+      const { candidate_alerts, on_going, ewi_templates } = data;
+      // setCandidateAlerts([JSON.parse(candidate_alerts)[1]]);
 
-    const temp_candidate = JSON.parse(candidate_alerts);
-    const temp_on_going = JSON.parse(on_going);
-    const { latest, overdue, extended, routine: routine_data } = temp_on_going;
-    let temp = [];
-    temp.push(...latest);
-    temp.push(...overdue);
-    setOnGoingAlerts(temp);
-    if (!routine_data.released_sites) {
-      routine_data.released_sites = [];
-    }
-    setRoutine(routine_data);
-    setEwiTemplates(ewi_templates);
-    setExtendedAlerts(extended);
-    if (extended.length > 0) {
-      const extended_site = extended.find((e) => e.event.site.site_id);
-      if (extended_site) {
-        setCandidateAlerts(
-          temp_candidate.filter((e) => e.general_status === "extended")
-        );
+      const temp_candidate = JSON.parse(candidate_alerts);
+      const temp_on_going = JSON.parse(on_going);
+      const {
+        latest,
+        overdue,
+        extended,
+        routine: routine_data,
+      } = temp_on_going;
+      let temp = [];
+      temp.push(...latest);
+      temp.push(...overdue);
+      setOnGoingAlerts(temp);
+      if (!routine_data.released_sites) {
+        routine_data.released_sites = [];
       }
-    } else {
-      setCandidateAlerts(temp_candidate);
-    }
+      setRoutine(routine_data);
+      setEwiTemplates(ewi_templates);
+      setExtendedAlerts(extended);
+      if (extended.length > 0) {
+        const extended_site = extended.find((e) => e.event.site.site_id);
+        if (extended_site) {
+          setCandidateAlerts(
+            temp_candidate.filter((e) => e.general_status === "extended")
+          );
+        }
+      } else {
+        setCandidateAlerts(temp_candidate);
+      }
     });
   };
 
@@ -1017,7 +1022,6 @@ function OpCen2(props) {
 
     sendMessage(input, (callback) => {
       const { status, feedback } = callback;
-      setIsOpenDisseminateModal(false);
       if (status) {
         // setIsOpenPromptModal(true);
         // setAlertVariant("success");
@@ -1083,23 +1087,6 @@ function OpCen2(props) {
         ewiTemplates={cbewsl_ewi_template}
       />
 
-      {moms_data && moms_data.length > 0 && (
-        <Grid
-          item
-          xs={12}
-          style={{ width: "95%", marginLeft: 38, padding: 10 }}
-        >
-          <Typography variant="h4">Landslide Features Validation</Typography>
-        </Grid>
-      )}
-
-      {moms_data && moms_data.length > 0 && (
-        <TempMomsTable
-          momsData={moms_data}
-          setSelectedMomsData={setSelectedMomsData}
-          setIsOpenUpdateMomsModal={setIsOpenUpdateMomsModal}
-        />
-      )}
       <Grid
         item
         xs={12}
@@ -1128,7 +1115,7 @@ function OpCen2(props) {
                   color: "black",
                 }}
               >
-                <b>Release On-demand</b>
+                <b>Insert On-demand</b>
               </Button>
             </div>
           </Grid>
