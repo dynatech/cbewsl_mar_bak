@@ -8,8 +8,13 @@ import {
   Typography,
   TextField,
   Grid,
+  InputAdornment,
+  IconButton
 } from "@mui/material";
+
 import { Link } from "@material-ui/core";
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import UserProfileModal from "../bakun/modals/UserProfileModal";
 import PromptModal from "../bakun/modals/PromptModal";
 import { signIn, forgotPassword, verifyOTP } from "../../apis/UserManagement";
@@ -46,6 +51,8 @@ const Signin = () => {
   const [otp, setOTP] = useState("");
 
   const [fileCount, setFileCount] = useState();
+
+  const [showPassword, setShowPassword] = useState(false);
 
   useEffect(() => {
     checkMatch();
@@ -394,7 +401,7 @@ const Signin = () => {
                 <TextField
                   id="filled-helperText"
                   placeholder="E.g. JuanDelacruz"
-                  inputProps={{ min: 0, style: { textAlign: "center" } }}
+                  inputProps={{ min: 0, style: { textAlign: "left" } }}
                   helperText={
                     <Typography
                       variant="caption"
@@ -405,7 +412,7 @@ const Signin = () => {
                     </Typography>
                   }
                   variant="standard"
-                  style={{ width: "25%" }}
+                  style={{ width: "13%" }}
                   onChange={(e) => {
                     setUsername(e.target.value);
                   }}
@@ -420,8 +427,8 @@ const Signin = () => {
                 <TextField
                   id="filled-helperText"
                   placeholder="**************"
-                  inputProps={{ min: 0, style: { textAlign: "center" } }}
-                  type="password"
+                  inputProps={{ min: 0, style: { textAlign: "left" } }}
+                  type={showPassword ? 'text' : 'password'}
                   helperText={
                     <Typography
                       variant="caption"
@@ -432,9 +439,23 @@ const Signin = () => {
                     </Typography>
                   }
                   variant="standard"
-                  style={{ width: "25%" }}
+                  style={{ width: "13%" }}
                   onChange={(e) => {
                     setPassword(e.target.value);
+                  }}
+                  InputProps={{
+                    endAdornment:(
+                    <InputAdornment position="end">
+                      <IconButton
+                        aria-label="toggle password visibility"
+                        onClick={() => {setShowPassword(!showPassword)}} 
+                        onMouseDown={() => { }}
+                        edge="end"
+                      >
+                      {showPassword ? <VisibilityOffIcon /> : <VisibilityIcon />}
+                      </IconButton>
+                    </InputAdornment>
+                    ),
                   }}
                   onKeyPress={(event) => {
                     if (event.code === "Enter") {

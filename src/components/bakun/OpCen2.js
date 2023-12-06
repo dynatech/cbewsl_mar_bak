@@ -185,6 +185,7 @@ function HeaderAlertInformation(props) {
     munisipyo_response: "",
   });
   const [validity, setValidity] = useState(null);
+  const [server_time, setServerTime] = useState("");
 
   useEffect(() => {
     if (onGoingData.length > 0) {
@@ -242,6 +243,13 @@ function HeaderAlertInformation(props) {
     }
   }, [onGoingData]);
 
+  useEffect(() => {
+    setInterval(() => {
+      let dt = moment().format("MMMM D, YYYY, h:mm A");
+      setServerTime(dt);
+    }, 1000);
+  }, []);
+
   return (
     <Grid
       container
@@ -264,7 +272,7 @@ function HeaderAlertInformation(props) {
             <Grid item xs={3} style={{ alignSelf: "center" }}>
               <Typography variant="h3">ALERT LEVEL {alert_level}</Typography>
               <Typography variant="h5">
-                {moment(data_timestamp).format("MMMM D, YYYY, h:mm A")}
+                {server_time.toUpperCase()}
               </Typography>
             </Grid>
             <Grid

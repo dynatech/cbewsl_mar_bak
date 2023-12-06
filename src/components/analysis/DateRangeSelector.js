@@ -12,6 +12,8 @@ const date_range_options = [
   { label: "3 months", unit: "months", duration: 3 },
   { label: "6 months", unit: "months", duration: 6 },
   { label: "1 year", unit: "years", duration: 1 },
+  { label: "2 years", unit: "years", duration: 2 },
+  { label: "3 years", unit: "years", duration: 3 },
   { label: "All", unit: "all", duration: 0 },
 ];
 
