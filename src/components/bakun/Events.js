@@ -1,5 +1,5 @@
-import React, { useMemo, div, useState, useEffect, Fragment } from "react";
-import { Calendar, momentLocalizer, Views } from "react-big-calendar";
+import React, { useMemo, useState, useEffect, Fragment } from "react";
+import { Calendar, momentLocalizer } from "react-big-calendar";
 import moment from "moment";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import {
@@ -13,26 +13,15 @@ import {
   Container,
   Divider,
   Modal,
-  Stack,
-  TextField,
-  TextareaAutosize,
   CardActionArea,
   IconButton,
 } from "@mui/material";
 import CircleIcon from "@mui/icons-material/Circle";
 // import MarirongHeader from "../utils/MarirongHeader";
-import DoNotDisturbIcon from "@mui/icons-material/DoNotDisturb";
 import CloseIcon from "@mui/icons-material/Close";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import FabMuiTable from "../utils/MuiTable";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
-import Dialog from "@mui/material/Dialog";
-import DialogActions from "@mui/material/DialogActions";
-import DialogContent from "@mui/material/DialogContent";
-import DialogTitle from "@mui/material/DialogTitle";
 import AddActivity from "./AddActivity";
 import PromptModal from "./modals/PromptModal";
 import { getEvents, deleteEvent } from "../../apis/EventsManagement";
@@ -64,7 +53,7 @@ const Events = (props) => {
     { name: "note", label: "Activity details" },
     { name: "start", label: "Start date" },
     { name: "end", label: "End date" },
-    // {name: 'actions', label: 'Actions'},
+    {name: 'actions', label: 'Actions', options: {download: false} },
   ];
 
   const options = {

@@ -123,12 +123,12 @@ const SurficialMarkers = (props) => {
         tempColumns.push({
           name: "timeActual",
           label: "timeActual",
-          options: { display: false },
+          options: { display: false , download:false}
         });
         tempColumns.push({
           name: "mo_id",
           label: "mo_id",
-          options: { display: false },
+          options: { display: false, download:false }
         });
 
         setMarkers(response.data.markers);
