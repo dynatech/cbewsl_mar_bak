@@ -382,7 +382,12 @@ const Moms = (props) => {
         }}
       />
 
-      <Dialog open={open} onClose={handleClose} fullWidth>
+      <Dialog
+        open={open}
+        onClose={handleClose}
+        fullWidth
+        style={{ zIndex: 1059 }}
+      >
         <DialogTitle>Enter new manifestation of movement</DialogTitle>
         <DialogContent>
           <Grid item xs={12} style={{ paddingTop: 10 }}>
