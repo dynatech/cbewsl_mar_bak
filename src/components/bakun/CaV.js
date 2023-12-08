@@ -169,7 +169,7 @@ const CaV = () => {
     gender: "",
     pregnant: false,
     disability: "not specified",
-    comorbidity: "",
+    comorbidity: "not specified",
     disabled: false,
     comorbid: false,
   });
@@ -183,7 +183,7 @@ const CaV = () => {
       gender: "",
       pregnant: false,
       disability: "not specified",
-      comorbidity: "",
+      comorbidity: "not specified",
       disabled: false,
       comorbid: false,
     });
@@ -200,7 +200,7 @@ const CaV = () => {
       gender: "",
       pregnant: false,
       disability: "not specified",
-      comorbidity: "",
+      comorbidity: "not specified",
       disabled: false,
       comorbid: false,
     });
@@ -576,8 +576,24 @@ const CaV = () => {
       <Grid container spacing={4} sx={{ mt: 1, mb: 6, padding: "2%" }}>
         <Grid item xs={12}>
           <Grid container spacing={2}>
-            <Grid item xs={12}>
+            <Grid item xs={6}>
               <Typography variant="h4">Household Summary</Typography>
+            </Grid>
+            <Grid item xs={6}>
+              <Button
+                variant="contained"
+                onClick={(e) => {
+                  setAction("add");
+                  setOpenModal(true);
+                }}
+                style={{
+                  backgroundColor: "#ffd400",
+                  color: "black",
+                  float: "right",
+                }}
+              >
+                Add Household
+              </Button>
             </Grid>
             <Grid item xs={12}>
               <FabMuiTable
@@ -591,26 +607,6 @@ const CaV = () => {
                 options={options}
               />
             </Grid>
-          </Grid>
-        </Grid>
-
-        <Grid container sx={{ mt: 2, mb: 6, padding: "2%" }}>
-          <Grid item xs={12} sm={12} md={12} lg={7}>
-            <Button
-              variant="contained"
-              style={{
-                float: "right",
-                mx: 1,
-                backgroundColor: "#ffd400",
-                color: "black",
-              }}
-              onClick={(e) => {
-                setAction("add");
-                setOpenModal(true);
-              }}
-            >
-              Add Household
-            </Button>
           </Grid>
         </Grid>
       </Grid>
@@ -649,6 +645,7 @@ const CaV = () => {
         maxWidth="xs"
         open={openModal}
         aria-labelledby="form-dialog-title"
+        style={{ zIndex: 1059 }}
       >
         <DialogTitle id="form-dialog-title">
           {action == "add" ? "Add New " : action == "edit" ? "Edit " : "View "}
@@ -658,7 +655,7 @@ const CaV = () => {
           <TextField
             disabled={action == "view"}
             id="filled-helperText"
-            label="Household ID"
+            label="Barangay Household ID"
             required
             placeholder="####"
             variant="outlined"
@@ -939,7 +936,7 @@ const CaV = () => {
                       }}
                     />
                   }
-                  label="Disabled"
+                  label="Person with disability"
                   style={{ width: "100%" }}
                 />
                 {householdMembers[index].disabled && (
@@ -971,7 +968,7 @@ const CaV = () => {
                       }}
                     />
                   }
-                  label="With Comorbidity"
+                  label="Person with comorbidity"
                   style={{ width: "100%" }}
                 />
                 {householdMembers[index].comorbid && (
