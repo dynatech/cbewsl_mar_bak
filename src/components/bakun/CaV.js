@@ -11,6 +11,7 @@ import {
   FormControl,
   Box,
   Checkbox,
+  FormHelperText
 } from "@mui/material";
 import FabMuiTable from "../utils/MuiTable";
 import Paper from "@mui/material/Paper";
@@ -127,7 +128,7 @@ const CaV = () => {
     { name: "household_id", label: "Household #" },
     { name: "household_head", label: "Household Head" },
     { name: "count", label: "Member Count" },
-    // { name: "actions", label: "Actions" },
+    { name: "actions", label: "Actions", options: {download: false} },
   ];
 
   const options = {
@@ -163,8 +164,8 @@ const CaV = () => {
   const [confirmation, setConfirmation] = useState(false);
 
   const [householdHead, setHouseholdHead] = useState({
-    id: "",
-    name: "",
+    household_id: "",
+    household_head: "",
     birthdate: new Date(),
     gender: "",
     pregnant: false,
@@ -190,6 +191,7 @@ const CaV = () => {
     setHouseholdMembers([]);
     setConfirmation(false);
     setAction("");
+    setIncomplete(false)
   };
 
   const handleAddMember = () => {
@@ -207,86 +209,109 @@ const CaV = () => {
     setHouseholdMembers(tempHouseholdMembers);
   };
 
+  const [incomplete, setIncomplete] = useState(false)
+
+  const checkRequired = () => {
+    let valid = true
+    if(householdHead.household_id == "" || householdHead.household_head == "" || householdHead.gender == "") 
+      valid = false
+    
+      householdMembers.map((member) => {
+        if(member.household_member == "" || member.gender=="") valid = false
+      })
+
+    return valid
+  }
+
   const handleSubmit = () => {
-    let tempMembers = [];
+    console.log("household head", householdHead)
+    let valid = checkRequired()
 
-    householdMembers.map((member) => {
-      tempMembers.push({
-        ...member,
-        birthdate: moment(member.birthdate).format("YYYY-MM-DD"),
-        pregnant: member.hasOwnProperty("pregnant") ? member.pregnant : false,
-        disability: member.disabled
-          ? member.disability == "" || member.disability == null
+    if(valid){
+      let tempMembers = [];
+
+      householdMembers.map((member) => {
+        tempMembers.push({
+          ...member,
+          birthdate: moment(member.birthdate).format("YYYY-MM-DD"),
+          pregnant: member.hasOwnProperty("pregnant") ? member.pregnant : false,
+          disability: member.disabled
+            ? member.disability == "" || member.disability == null
+              ? "not specified"
+              : member.disability
+            : null,
+          comorbidity: member.comorbid
+            ? member.comorbidity == "" || member.comorbidity == null
+              ? "not specified"
+              : member.comorbidity
+            : null,
+        });
+      });
+  
+      let submitData = {
+        ...householdHead,
+        birthdate: moment(householdHead.birthdate).format("YYYY-MM-DD"),
+        pregnant: householdHead.hasOwnProperty("pregnant")
+          ? householdHead.pregnant
+          : false,
+        disability: householdHead.disabled
+          ? householdHead.disability == "" || householdHead.disability == null
             ? "not specified"
-            : member.disability
+            : householdHead.disability
           : null,
-        comorbidity: member.comorbid
-          ? member.comorbidity == "" || member.comorbidity == null
+        comorbidity: householdHead.comorbid
+          ? householdHead.comorbidity == "" || householdHead.comorbidity == null
             ? "not specified"
-            : member.comorbidity
+            : householdHead.comorbidity
           : null,
-      });
-    });
-
-    let submitData = {
-      ...householdHead,
-      birthdate: moment(householdHead.birthdate).format("YYYY-MM-DD"),
-      pregnant: householdHead.hasOwnProperty("pregnant")
-        ? householdHead.pregnant
-        : false,
-      disability: householdHead.disabled
-        ? householdHead.disability == "" || householdHead.disability == null
-          ? "not specified"
-          : householdHead.disability
-        : null,
-      comorbidity: householdHead.comorbid
-        ? householdHead.comorbidity == "" || householdHead.comorbidity == null
-          ? "not specified"
-          : householdHead.comorbidity
-        : null,
-      members: tempMembers,
-      site_id: CBEWSL_SITE,
-    };
-
-    if (action == "add") {
-      addHousehold(submitData, (response) => {
-        if (response.status == true) {
-          initialize();
-          setOpenModal(false);
-          Swal.fire({
-            icon: "success",
-            title: "Success!",
-            text: "Successfully added household data",
-          });
-          fetchAll();
-        } else {
-          Swal.fire({
-            icon: "error",
-            title: "Error!",
-            text: "Error adding household data. Please contact developers",
-          });
-        }
-      });
-    } else if (action == "edit") {
-      editHousehold(submitData, (response) => {
-        if (response.status == true) {
-          initialize();
-          setOpenModal(false);
-          Swal.fire({
-            icon: "success",
-            title: "Success!",
-            text: "Successfully edited household data",
-          });
-          fetchAll();
-        } else {
-          Swal.fire({
-            icon: "error",
-            title: "Error!",
-            text: "Error editing household data. Please contact developers",
-          });
-        }
-      });
+        members: tempMembers,
+        site_id: CBEWSL_SITE,
+      };
+  
+      if (action == "add") {
+        addHousehold(submitData, (response) => {
+          if (response.status == true) {
+            initialize();
+            setOpenModal(false);
+            Swal.fire({
+              icon: "success",
+              title: "Success!",
+              text: "Successfully added household data",
+            });
+            fetchAll();
+          } else {
+            Swal.fire({
+              icon: "error",
+              title: "Error!",
+              text: "Error adding household data. Please contact developers",
+            });
+          }
+        });
+      } else if (action == "edit") {
+        editHousehold(submitData, (response) => {
+          if (response.status == true) {
+            initialize();
+            setOpenModal(false);
+            Swal.fire({
+              icon: "success",
+              title: "Success!",
+              text: "Successfully edited household data",
+            });
+            fetchAll();
+          } else {
+            Swal.fire({
+              icon: "error",
+              title: "Error!",
+              text: "Error editing household data. Please contact developers",
+            });
+          }
+        });
+      }
     }
+    else{
+      setIncomplete(true)
+    }
+    
   };
 
   const [action, setAction] = useState("");
@@ -344,159 +369,72 @@ const CaV = () => {
   const [vulnerableHouseholds, setVulnerableHouseholds] = useState([]);
   const [openVulnerableModal, setOpenVulnerableModal] = useState(false);
 
+  const populateVulnerable = (responseData) => {
+    let tempHouseholds = []
+    
+    responseData.map((household) => {
+      let tempMembers = [];
+
+      household.members.map((member) => {
+        tempMembers.push({
+          ...member,
+          disabled: member.disability != null ? true : false,
+          comorbid: member.comorbidity != null ? true : false,
+        });
+      });
+
+      tempHouseholds.push({
+        ...household,
+        count: household.members.length,
+        disabled: household.disability != null ? true : false,
+        comorbid: household.comorbidity != null ? true : false,
+        members: tempMembers,
+      });
+    });
+
+    setVulnerableHouseholds(tempHouseholds);
+  }
+
   const handleViewMore = (x) => {
-    let tempHouseholds = [];
 
     if (x.key == "pregnant") {
       getPregnant((response) => {
         if (response.status) {
-          response.data.map((household) => {
-            let tempMembers = [];
-
-            household.members.map((member) => {
-              tempMembers.push({
-                ...member,
-                disabled: member.disability != null ? true : false,
-                comorbid: member.comorbidity != null ? true : false,
-              });
-            });
-
-            tempHouseholds.push({
-              ...household,
-              count: household.members.length,
-              disabled: household.disability != null ? true : false,
-              comorbid: household.comorbidity != null ? true : false,
-              members: tempMembers,
-            });
-          });
-          setVulnerableHouseholds(tempHouseholds);
+          populateVulnerable(response.data)
         }
       });
     } else if (x.key == "disabled") {
       getDisabled((response) => {
         if (response.status) {
-          response.data.map((household) => {
-            let tempMembers = [];
-
-            household.members.map((member) => {
-              tempMembers.push({
-                ...member,
-                disabled: member.disability != null ? true : false,
-                comorbid: member.comorbidity != null ? true : false,
-              });
-            });
-            tempHouseholds.push({
-              ...household,
-              count: household.members.length,
-              disabled: household.disability != null ? true : false,
-              comorbid: household.comorbidity != null ? true : false,
-              members: tempMembers,
-            });
-          });
-          setVulnerableHouseholds(tempHouseholds);
+          populateVulnerable(response.data)
         }
       });
     } else if (x.key == "comorbid") {
       getComorbid((response) => {
         if (response.status) {
-          response.data.map((household) => {
-            let tempMembers = [];
-
-            household.members.map((member) => {
-              tempMembers.push({
-                ...member,
-                disabled: member.disability != null ? true : false,
-                comorbid: member.comorbidity != null ? true : false,
-              });
-            });
-
-            tempHouseholds.push({
-              ...household,
-              count: household.members.length,
-              disabled: household.disability != null ? true : false,
-              comorbid: household.comorbidity != null ? true : false,
-              members: tempMembers,
-            });
-          });
-          setVulnerableHouseholds(tempHouseholds);
+          populateVulnerable(response.data)
         }
       });
     } else if (x.key == "children") {
       getChildren((response) => {
         if (response.status) {
-          response.data.map((household) => {
-            let tempMembers = [];
-
-            household.members.map((member) => {
-              tempMembers.push({
-                ...member,
-                disabled: member.disability != null ? true : false,
-                comorbid: member.comorbidity != null ? true : false,
-              });
-            });
-
-            tempHouseholds.push({
-              ...household,
-              count: household.members.length,
-              disabled: household.disability != null ? true : false,
-              comorbid: household.comorbidity != null ? true : false,
-              members: tempMembers,
-            });
-          });
-          setVulnerableHouseholds(tempHouseholds);
+          populateVulnerable(response.data)
         }
       });
     } else if (x.key == "toddler") {
       getToddler((response) => {
         if (response.status) {
-          response.data.map((household) => {
-            let tempMembers = [];
-
-            household.members.map((member) => {
-              tempMembers.push({
-                ...member,
-                disabled: member.disability != null ? true : false,
-                comorbid: member.comorbidity != null ? true : false,
-              });
-            });
-
-            tempHouseholds.push({
-              ...household,
-              count: household.members.length,
-              disabled: household.disability != null ? true : false,
-              comorbid: household.comorbidity != null ? true : false,
-              members: tempMembers,
-            });
-          });
-          setVulnerableHouseholds(tempHouseholds);
+          populateVulnerable(response.data)
         }
       });
     } else if (x.key == "senior") {
       getSenior((response) => {
         if (response.status) {
-          response.data.map((household) => {
-            let tempMembers = [];
-
-            household.members.map((member) => {
-              tempMembers.push({
-                ...member,
-                disabled: member.disability != null ? true : false,
-                comorbid: member.comorbidity != null ? true : false,
-              });
-            });
-
-            tempHouseholds.push({
-              ...household,
-              count: household.members.length,
-              disabled: household.disability != null ? true : false,
-              comorbid: household.comorbidity != null ? true : false,
-              members: tempMembers,
-            });
-          });
-          setVulnerableHouseholds(tempHouseholds);
+          populateVulnerable(response.data)
         }
       });
     }
+    
     setOpenVulnerableModal(true);
   };
 
@@ -653,6 +591,8 @@ const CaV = () => {
         </DialogTitle>
         <DialogContent style={{ paddingTop: 10 }}>
           <TextField
+            error={incomplete && householdHead.household_id==""}
+            helperText={incomplete && householdHead.household_id=="" && "required"}
             disabled={action == "view"}
             id="filled-helperText"
             label="Barangay Household ID"
@@ -669,6 +609,8 @@ const CaV = () => {
             }}
           />
           <TextField
+            error={incomplete && householdHead.household_head==""}
+            helperText={incomplete && householdHead.household_head=="" && "required"}
             disabled={action == "view"}
             id="filled-helperText"
             label="Household Head Name"
@@ -713,9 +655,11 @@ const CaV = () => {
             <FormControl
               fullWidth
               style={{ width: "49.2%", paddingBottom: 10 }}
+              error={incomplete && householdHead.gender==""}
             >
               <InputLabel id="demo-simple-select-label">Gender</InputLabel>
               <Select
+                error={incomplete && householdHead.gender==""}
                 disabled={action == "view"}
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
@@ -731,6 +675,9 @@ const CaV = () => {
                 <MenuItem value={"F"}>Female</MenuItem>
                 <MenuItem value={"M"}>Male</MenuItem>
               </Select>
+              <FormHelperText>
+                {incomplete && householdHead.gender=="" && "required"}
+              </FormHelperText>
             </FormControl>
           </Box>
           {householdHead.gender == "F" && (
@@ -843,6 +790,8 @@ const CaV = () => {
                   Household Member # {index + 1}
                 </Typography>
                 <TextField
+                  error={incomplete && householdMembers[index].household_member==""}
+                  helperText={incomplete && householdMembers[index].household_member=="" && "required"}
                   disabled={action == "view"}
                   id="filled-helperText"
                   label="Household Member Name"
@@ -886,11 +835,13 @@ const CaV = () => {
                   <FormControl
                     fullWidth
                     style={{ width: "49.2%", paddingBottom: 10 }}
+                    error={incomplete && householdMembers[index].gender==""}
                   >
                     <InputLabel id="demo-simple-select-label">
                       Gender
                     </InputLabel>
                     <Select
+                      error={incomplete && householdMembers[index].gender==""}
                       disabled={action == "view"}
                       labelId="demo-simple-select-label"
                       id="demo-simple-select"
@@ -905,6 +856,9 @@ const CaV = () => {
                       <MenuItem value={"F"}>Female</MenuItem>
                       <MenuItem value={"M"}>Male</MenuItem>
                     </Select>
+                    <FormHelperText>
+                      {incomplete && householdMembers[index].gender=="" && "required"}
+                    </FormHelperText>
                   </FormControl>
                 </Box>
                 {householdMembers[index].gender == "F" && (

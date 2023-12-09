@@ -85,9 +85,9 @@ const MuiTable = (props) => {
   let temp = [];
 
   let tableColumns = [...columns];
-  if (onView || onEdit || onDelete) {
-    tableColumns = [...columns, { name: "actions", label: "Actions" }];
-  }
+  // if (onView || onEdit || onDelete) {
+  //   tableColumns = [...columns, { name: "actions", label: "Actions" }];
+  // }
   rows.forEach((element) => {
     temp.push({
       ...element,
@@ -137,7 +137,7 @@ const MuiTable = (props) => {
     <MUIDataTable
       title={""}
       data={temp}
-      columns={tableColumns}
+      columns={columns}
       options={options}
     />
   );
