@@ -32,6 +32,7 @@ import {
 
 import PromptModal from "./PromptModal";
 import Swal from "sweetalert2";
+import { CBEWSL_SITE } from "../../../host";
 
 function OnDemandModal(props) {
   const {
@@ -71,7 +72,7 @@ function OnDemandModal(props) {
       reason,
       tech_info: reason,
       reporter_id: userId,
-      site_id: 29,
+      site_id: CBEWSL_SITE,
     };
     insertOnDemandToDb(input, (response) => {
       const { status, message } = response;

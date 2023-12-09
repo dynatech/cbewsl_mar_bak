@@ -37,11 +37,11 @@ function DisseminateModal(props) {
   const [siteLocation, setSiteLocation] = useState("");
   const [currentAlertTs, setCurrentAlertTs] = useState("");
   const [triggerSource, setTriggerSource] = useState([]);
-  const [barangayRP, setBarangayRP] = useState("");
-  const [communityRP, setCommunityRP] = useState("");
-  const [lewcRP, setLewcRP] = useState("");
-  const [municipalRP, setMunicipalRp] = useState("");
-  const [provincialRp, setProvincialRp] = useState("");
+  const [barangayResponse, setBarangayResponse] = useState("");
+  const [communityResponse, setCommunityResponse] = useState("");
+  const [lewcResponse, setLewcResponse] = useState("");
+  const [municipalResponse, setMunicipalResponse] = useState("");
+  const [provincialResponse, setProvicialResponse] = useState("");
   const [latestEventTriggers, setLatestEventTriggers] = useState([]);
 
   const releaseEWISms = () => {
@@ -150,11 +150,11 @@ function DisseminateModal(props) {
         const recommended_response = ewiTemplates.find(
           (e) => e.alert_level === alert_level
         );
-        setBarangayRP(recommended_response.barangay_response);
-        setLewcRP(recommended_response.lewc_response);
-        setCommunityRP(recommended_response.community_response);
-        setMunicipalRp(recommended_response.mlgu_response);
-        setProvincialRp(recommended_response.plgu_response);
+        setBarangayResponse(recommended_response.barangay_response);
+        setLewcResponse(recommended_response.lewc_response);
+        setCommunityResponse(recommended_response.community_response);
+        setMunicipalResponse(recommended_response.mlgu_response);
+        setProvicialResponse(recommended_response.plgu_response);
 
         msg += `\nResponde (Barangay): ${recommended_response.barangay_response}\n`;
         msg += `\nResponde (LEWC):${recommended_response.lewc_response}\n`;
@@ -163,7 +163,8 @@ function DisseminateModal(props) {
         setMessage(msg);
       } else {
         // need icheck if gagana din sa extended
-        const { data_ts, public_alert_level } = disseminateData;
+        const { data_ts, public_alert_level, isRoutine } = disseminateData;
+        console.log(disseminateData);
         const recommended_response = ewiTemplates.find(
           (e) => e.alert_level === public_alert_level
         );
@@ -179,15 +180,17 @@ function DisseminateModal(props) {
         setCurrentAlertTs(moment(data_ts).add(30, "minutes").format("LLL"));
 
         let temp = [...triggerSource];
-        temp.push({
-          source: "Extended",
-          description: recommended_response.trigger_description,
-        });
+        if (isRoutine === false) {
+          temp.push({
+            source: "Extended",
+            description: recommended_response.trigger_description,
+          });
+        }
         setTriggerSource(temp);
-        setCommunityRP(recommended_response.community_response);
-        setBarangayRP(recommended_response.barangay_response);
-        setMunicipalRp(recommended_response.mlgu_response);
-        setProvincialRp(recommended_response.plgu_response);
+        setCommunityResponse(recommended_response.community_response);
+        setBarangayResponse(recommended_response.barangay_response);
+        setMunicipalResponse(recommended_response.mlgu_response);
+        setProvicialResponse(recommended_response.plgu_response);
 
         msg += `\nBakit: ${recommended_response.trigger_description}`;
         msg += `\nResponde (Komunidad): ${recommended_response.community_response}\nResponde (LEWC):${recommended_response.barangay_response}\nSource: Bakun MDRRMO`;
@@ -203,18 +206,17 @@ function DisseminateModal(props) {
         siteLocation: siteLocation,
         currentAlertTs: currentAlertTs,
         triggerSource: triggerSource,
-        barangayRP: barangayRP,
-        communityRP: communityRP,
-        lewcRP: lewcRP,
-        municipalRP,
-        provincialRp,
+        barangayResponse,
+        communityResponse,
+        lewcResponse,
+        municipalResponse,
+        provincialResponse,
         triggerList: latestEventTriggers,
       },
     });
   };
 
   const sendEwiSMS = () => {
-    setOpenModal(false);
     handleSendSMS(message);
   };
 

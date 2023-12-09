@@ -70,13 +70,12 @@ function AlertReleaseFormModal(props) {
       <DialogContent>
         {trigger_list_arr && trigger_list_arr.length > 0 ? (
           trigger_list_arr.map((row, index) => {
-            const { tech_info, trigger_type, ts_updated, validating_status } =
-              row;
+            const { tech_info, trigger_type, ts_updated, alert_level } = row;
             return (
               <Grid container style={{ textAlign: "center" }}>
                 <Grid item md={12}>
                   <Typography variant="h6">
-                    Alert level {public_alert_level} Triggers
+                    Alert level {alert_level} Triggers
                   </Typography>
                 </Grid>
                 <Grid item md={2}>
