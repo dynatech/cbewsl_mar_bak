@@ -52,7 +52,7 @@ import {
 } from "@material-ui/icons";
 import UpdateMomsModal from "./modals/UpdateMomsModal";
 import OnDemandModal from "./modals/OnDemandModal";
-import { CBEWSL_SITE_NAME } from "../../host";
+import { CBEWSL_SITE, CBEWSL_SITE_NAME } from "../../host";
 import tempAlertGen from "../data/alert_gen.json";
 
 const alert_level_colors = [
@@ -271,9 +271,7 @@ function HeaderAlertInformation(props) {
           <Grid container spacing={1}>
             <Grid item xs={3} style={{ alignSelf: "center" }}>
               <Typography variant="h3">ALERT LEVEL {alert_level}</Typography>
-              <Typography variant="h5">
-                {server_time.toUpperCase()}
-              </Typography>
+              <Typography variant="h5">{server_time.toUpperCase()}</Typography>
             </Grid>
             <Grid
               item
@@ -994,7 +992,8 @@ function OpCen2(props) {
 
   const getAllContacts = () => {
     getContacts((data) => {
-      setAllContacts(data);
+      const site_contacts = data.filter((e) => e.user.site_id === CBEWSL_SITE);
+      setAllContacts(site_contacts);
     });
   };
 

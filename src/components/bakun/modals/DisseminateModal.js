@@ -156,9 +156,9 @@ function DisseminateModal(props) {
         setMunicipalResponse(recommended_response.mlgu_response);
         setProvicialResponse(recommended_response.plgu_response);
 
-        msg += `\nResponde (Barangay): ${recommended_response.barangay_response}\n`;
-        msg += `\nResponde (LEWC):${recommended_response.lewc_response}\n`;
-        msg += `\nResponde (Komunidad): ${recommended_response.community_response}\n`;
+        msg += `\n\nResponde (Komunidad): ${recommended_response.sms_community_response}\n`;
+        msg += `\nResponde (LEWC): ${recommended_response.sms_lewc_response}\n`;
+        msg += `\nResponde (Barangay): ${recommended_response.sms_barangay_response}\n\n`;
         msg += `Source: Bakun MDRRMO`;
         setMessage(msg);
       } else {
@@ -193,7 +193,10 @@ function DisseminateModal(props) {
         setProvicialResponse(recommended_response.plgu_response);
 
         msg += `\nBakit: ${recommended_response.trigger_description}`;
-        msg += `\nResponde (Komunidad): ${recommended_response.community_response}\nResponde (LEWC):${recommended_response.barangay_response}\nSource: Bakun MDRRMO`;
+        msg += `\n\nResponde (Komunidad): ${recommended_response.sms_community_response}\n`;
+        msg += `\nResponde (LEWC): ${recommended_response.sms_lewc_response}\n`;
+        msg += `\nResponde (Barangay): ${recommended_response.sms_barangay_response}\n\n`;
+        msg += `Source: Bakun MDRRMO`;
         setMessage(msg);
       }
     }
@@ -226,6 +229,7 @@ function DisseminateModal(props) {
       fullScreen={false}
       open={isOpen}
       aria-labelledby="form-dialog-title"
+      style={{ zIndex: 1059 }}
     >
       <DialogTitle id="form-dialog-title">Disseminate Warning</DialogTitle>
       <DialogContent>
