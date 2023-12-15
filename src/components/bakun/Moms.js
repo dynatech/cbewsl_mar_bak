@@ -302,7 +302,7 @@ const Moms = (props) => {
             "YYYY-MM-DD HH:mm:ss"
           ),
           remarks: narrative,
-          reporter_id: 1, //default muna, need mag create ng general community account
+          reporter_id: 1243, //default muna, need mag create ng general community account
           validator_id: userId,
           location: featureLocation,
           iomp: userId,
