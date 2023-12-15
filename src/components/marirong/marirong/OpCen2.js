@@ -979,7 +979,9 @@ function OpCen2(props) {
 
   const getAllContacts = () => {
     getContacts((data) => {
-      setAllContacts(data);
+      const mar_site_id = 29;
+      const site_contacts = data.filter((e) => e.user.site_id === mar_site_id);
+      setAllContacts(site_contacts);
     });
   };
 
