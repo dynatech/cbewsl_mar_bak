@@ -181,7 +181,7 @@ function HeaderAlertInformation(props) {
   const [latest_triggers, setLatestTriggers] = useState([]);
   const [responses, setResponses] = useState({
     barangay_response: "",
-    commmunity_response: "",
+    community_response: "",
     munisipyo_response: "",
   });
   const [validity, setValidity] = useState(null);
@@ -300,26 +300,26 @@ function HeaderAlertInformation(props) {
               </Typography>
               <br />
               <Typography variant="body1" gutterBottom>
-                <strong>Responde (Komunidad):</strong>{" "}
+                <strong>Response (Community):</strong>{" "}
                 {responses.community_response
                   ? responses.community_response
                   : "N/A"}
               </Typography>
               <br />
               <Typography variant="body1" gutterBottom>
-                <strong>Responde (LEWC):</strong>{" "}
+                <strong>Response (LEWC):</strong>{" "}
                 {responses.lewc_response ? responses.lewc_response : "N/A"}
               </Typography>
               <br />
               <Typography variant="body1" gutterBottom>
-                <strong>Responde (Barangay):</strong>{" "}
+                <strong>Response (BLGU):</strong>{" "}
                 {responses.barangay_response
                   ? responses.barangay_response
                   : "N/A"}
               </Typography>
               <br />
               <Typography variant="body1" gutterBottom>
-                <strong>Responde (Munisipyo):</strong>{" "}
+                <strong>Response (MLGU):</strong>{" "}
                 {responses.mlgu_response ? responses.mlgu_response : "N/A"}
               </Typography>
             </Grid>
