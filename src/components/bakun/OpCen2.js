@@ -992,7 +992,10 @@ function OpCen2(props) {
 
   const getAllContacts = () => {
     getContacts((data) => {
-      const site_contacts = data.filter((e) => e.user.site_id === CBEWSL_SITE);
+      const site_contacts = data.data.filter(
+        (e) => e.user.site_id === CBEWSL_SITE
+      );
+      console.log(site_contacts);
       setAllContacts(site_contacts);
     });
   };
@@ -1009,7 +1012,7 @@ function OpCen2(props) {
     }
 
     const recipients_mobile = [];
-    all_contacts.data.map((obj) => {
+    all_contacts.map((obj) => {
       const { mobile_number } = obj;
       const { gsm_id } = mobile_number;
       if (gsm_id !== 0) {

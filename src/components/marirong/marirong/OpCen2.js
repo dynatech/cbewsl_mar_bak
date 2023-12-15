@@ -980,7 +980,9 @@ function OpCen2(props) {
   const getAllContacts = () => {
     getContacts((data) => {
       const mar_site_id = 29;
-      const site_contacts = data.filter((e) => e.user.site_id === mar_site_id);
+      const site_contacts = data.data.filter(
+        (e) => e.user.site_id === mar_site_id
+      );
       setAllContacts(site_contacts);
     });
   };
@@ -998,7 +1000,7 @@ function OpCen2(props) {
     }
 
     const recipient_user_ids = [];
-    all_contacts.data.map((obj) => {
+    all_contacts.map((obj) => {
       const {
         user: { user_id },
       } = obj;
