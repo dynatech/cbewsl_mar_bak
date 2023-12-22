@@ -955,8 +955,8 @@ function OpCen2(props) {
       if (!routine_data.released_sites) {
         routine_data.released_sites = [];
       }
-      setRoutine(routine_data.filter((e) => e.site_id === 29));
       setEwiTemplates(ewi_templates);
+      setRoutine(routine_data.filter((e) => e.site_id === 29));
       setExtendedAlerts(extended);
       if (extended.length > 0) {
         const extended_site = extended.find((e) => e.event.site.site_id);

@@ -235,6 +235,7 @@ function HeaderAlertInformation(props) {
     } else {
       if (ewiTemplates.length > 0) {
         const template = ewiTemplates.find((e) => e.alert_level === 0);
+        console.log("TEMPLATE", template);
         setResponses(template);
         setLatestTriggers([template]);
         setAlertLevel(0);
@@ -968,8 +969,8 @@ function OpCen2(props) {
       if (!routine_data.released_sites) {
         routine_data.released_sites = [];
       }
-      setRoutine(routine_data.filter((e) => e.site_id === CBEWSL_SITE));
       setEwiTemplates(ewi_templates);
+      setRoutine(routine_data.filter((e) => e.site_id === CBEWSL_SITE));
       setExtendedAlerts(extended);
       if (extended.length > 0) {
         const extended_site = extended.find((e) => e.event.site.site_id);
@@ -995,7 +996,6 @@ function OpCen2(props) {
       const site_contacts = data.data.filter(
         (e) => e.user.site_id === CBEWSL_SITE
       );
-      console.log(site_contacts);
       setAllContacts(site_contacts);
     });
   };

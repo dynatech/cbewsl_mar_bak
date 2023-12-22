@@ -62,18 +62,6 @@ function AlertReleaseFormModal(props) {
       }
       setOpenBackdrop(false);
     });
-    // setOpenModal(false);
-    // handleSubmitRelease("Alert release success!");
-    // let temp = monitoringReleases;
-    // console.log(temp)
-    // let current_trigger = { ...trigger };
-    // console.log(current_trigger)
-    // current_trigger.release_id = current_trigger.id;
-    // temp.push(current_trigger);
-    // setMonitoringReleases(temp);
-    // let current_triggers = triggers.filter(e => e.id !== current_trigger.id);
-    // setTriggers(current_triggers);
-    // console.log(current_triggers);
   };
   return (
     <Dialog
