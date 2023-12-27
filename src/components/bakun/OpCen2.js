@@ -235,7 +235,6 @@ function HeaderAlertInformation(props) {
     } else {
       if (ewiTemplates.length > 0) {
         const template = ewiTemplates.find((e) => e.alert_level === 0);
-        console.log("TEMPLATE", template);
         setResponses(template);
         setLatestTriggers([template]);
         setAlertLevel(0);
@@ -970,7 +969,13 @@ function OpCen2(props) {
         routine_data.released_sites = [];
       }
       setEwiTemplates(ewi_templates);
-      setRoutine(routine_data.filter((e) => e.site_id === CBEWSL_SITE));
+
+      if (routine_data.released_sites) {
+        routine_data.released_sites = routine_data.released_sites.filter(
+          (e) => e.site_id === CBEWSL_SITE
+        );
+        setRoutine(routine_data);
+      }
       setExtendedAlerts(extended);
       if (extended.length > 0) {
         const extended_site = extended.find((e) => e.event.site.site_id);
