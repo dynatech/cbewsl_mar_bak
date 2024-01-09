@@ -17,6 +17,7 @@ import ilolo_province_seal from "../../../assets/iloilo_province_seal.png";
 import leon_municipal_seal from "../../../assets/leon_municipal_seal.png";
 import leon_mdrrmc_responder from "../../../assets/leon_mdrrmc_responder.png";
 import mar_lewc_seal from "../../../assets/mar_lewc_seal.png";
+import HazardMap from "../../../assets/hazard_map_MAR.jpg";
 
 import MenuIcon from "@mui/icons-material/Menu";
 import Menu from "@mui/material/Menu";
@@ -145,6 +146,10 @@ const MarirongHeader = () => {
   useEffect(() => {
     handleCurrentTab();
   });
+
+  const handleOpen = () => {
+    window.open(HazardMap, "_blank");
+  };
 
   useEffect(() => {
     setInterval(() => {
@@ -437,7 +442,7 @@ const MarirongHeader = () => {
         >
           <MenuItem
             onClick={() => {
-              navigate("/hazard_mapping");
+              handleOpen();
               handleClose();
             }}
           >

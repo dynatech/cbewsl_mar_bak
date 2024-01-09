@@ -66,6 +66,17 @@ const eq_ev_tbl_columns = [
 const eq_al_tbl_columns = [
   { name: "Timestamp" },
   { name: "Magnitude" },
+  {
+    name: "eq_id",
+    options: {
+      display: false,
+      viewColumns: false,
+      filter: false,
+    },
+  },
+  {
+    name: "Sites",
+  },
   // {
   //     name: "Sites",
   //     options: {
@@ -101,16 +112,22 @@ function prepareSiteAddress(
 }
 
 function EarthquakeMap(props) {
-  const { eqEvents } = props;
+  const { eqEvents, zoomIn } = props;
   const sites = require("./../data/sites.json");
   const state = {
-    lat: 11.154057,
-    lng: 122.483825,
+    lat: 10.827459,
+    lng: 122.321555,
     zoom: 9,
   };
 
   let position = [state.lat, state.lng];
   let { zoom } = state;
+  if (zoomIn) {
+    const { latitude, longitude } = eqEvents[0];
+    position = [latitude, longitude];
+    zoom = 10;
+  }
+
   const ref = useRef();
   const is_one = eqEvents.length === 1;
   const [show_popup, setShowPopUp] = useState(false);
@@ -131,14 +148,15 @@ function EarthquakeMap(props) {
 
   return (
     <LeafletMap
-      style={{ height: "71vh", width: "100%" }}
+      style={{ height: "80vh", width: "100%" }}
       center={position}
       zoom={zoom}
     >
       <TileLayer
         attribution='&copy; <a href="https://www.mapbox.com/about/maps/">Mapbox</a> © <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> <strong><a href="https://www.mapbox.com/map-feedback/" target="_blank">Improve this map</a></strong>'
         id="mapbox.streets"
-        url="https://api.mapbox.com/styles/v1/mapbox/streets-v11/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw"
+        // url="https://api.mapbox.com/styles/v1/mapbox/streets-v11/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw"
+        url="https://tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
       {eqEvents.map((event, i) => {
         const {
@@ -260,7 +278,7 @@ function EarthquakeChart(props) {
       },
     },
     selectableRows: "none",
-    rowsPerPage: 5,
+    rowsPerPage: 10,
     rowsPerPageOptions: [],
     print: false,
     download: false,
@@ -281,7 +299,7 @@ function EarthquakeChart(props) {
     },
     selectableRows: "none",
     count: eqAlertsPagination.count,
-    rowsPerPage: 3,
+    rowsPerPage: 10,
     rowsPerPageOptions: [],
     print: false,
     download: false,
@@ -301,7 +319,11 @@ function EarthquakeChart(props) {
     <Fragment>
       <Grid container spacing={2} style={{ marginTop: 30 }}>
         <Grid item md={6} container>
-          <EarthquakeMap eqEvents={eqEvents} />
+          {/* <EarthquakeMap eqEvents={eqEvents} /> */}
+          <EarthquakeMap
+            eqEvents={chosen_events}
+            zoomIn={chosen_events.length === 1}
+          />
         </Grid>
         <Grid item md={6} container>
           <AppBar position="static">
@@ -340,13 +362,13 @@ function EarthquakeChart(props) {
       <Grid item md={12} container align="right">
         <Grid container>
           <Grid item md={12} align="right" style={{ paddingTop: 20 }}>
-            <Button
+            {/* <Button
               variant="contained"
               sx={{ float: "right", mx: 1 }}
               onClick={(e) => {}}
             >
               Download CSV
-            </Button>
+            </Button> */}
           </Grid>
         </Grid>
       </Grid>

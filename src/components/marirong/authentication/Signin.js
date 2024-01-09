@@ -10,10 +10,14 @@ import {
   TextField,
   Divider,
   Grid,
+  InputAdornment,
+  IconButton
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import { Paper, Link, Box } from "@material-ui/core";
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import tile_1 from "../../../assets/tile/tile_1.png";
 import tile_2 from "../../../assets/tile/tile_2.png";
 import tile_3 from "../../../assets/tile/tile_3.png";
@@ -78,6 +82,8 @@ const Signin = () => {
   const [otp, setOTP] = useState("");
 
   const [fileCount, setFileCount] = useState();
+
+  const [showPassword, setShowPassword] = useState(false);
 
   useEffect(() => {
     checkMatch();
@@ -402,7 +408,7 @@ const Signin = () => {
                 id="filled-helperText"
                 placeholder="**************"
                 inputProps={{ min: 0, style: { textAlign: "center" } }}
-                type="password"
+                type={showPassword ? 'text' : 'password'}
                 helperText={
                   <Typography
                     variant="caption"
@@ -416,6 +422,20 @@ const Signin = () => {
                 style={{ width: "80%" }}
                 onChange={(e) => {
                   setPassword(e.target.value);
+                }}
+                InputProps={{
+                  endAdornment:(
+                  <InputAdornment position="end">
+                    <IconButton
+                      aria-label="toggle password visibility"
+                      onClick={() => {setShowPassword(!showPassword)}} 
+                      onMouseDown={() => { }}
+                      edge="end"
+                    >
+                    {showPassword ? <VisibilityOffIcon /> : <VisibilityIcon />}
+                    </IconButton>
+                  </InputAdornment>
+                  ),
                 }}
                 onKeyPress={(event) => {
                   if (event.code === "Enter") {

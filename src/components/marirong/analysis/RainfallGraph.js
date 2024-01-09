@@ -8,6 +8,7 @@ import { Skeleton } from "@mui/material";
 
 import { Grid, Paper, Hidden, TextField } from "@material-ui/core";
 import { getRainfallPlotData } from "../../marirong/marirong_apis/analysis";
+import DateRangeSelector from "./DateRangeSelector";
 
 function computeForStartTs(ts, duration = 7, unit = "days") {
   if (unit === "all") {
@@ -607,6 +608,15 @@ function RainfallGraph(props) {
   return (
     <Fragment>
       <div style={{ marginTop: 16 }}>
+      <Grid container spacing={1} justifyContent="flex-end">
+          <div style={{ marginBottom: 16 }}>
+            <DateRangeSelector
+              selectedRangeInfo={selected_range_info}
+              setSelectedRangeInfo={setSelectedRangeInfo}
+              disableAll
+            />
+          </div>
+        </Grid>
         <Grid container spacing={4}>
           <Grid item xs={12} md={12}>
             {/* <TextField
