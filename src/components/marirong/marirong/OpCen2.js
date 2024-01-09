@@ -183,6 +183,7 @@ function HeaderAlertInformation(props) {
     community_reponse: "",
   });
   const [validity, setValidity] = useState(null);
+  const [server_time, setServerTime] = useState("");
 
   useEffect(() => {
     console.log("ON GOING", onGoingData);
@@ -240,6 +241,13 @@ function HeaderAlertInformation(props) {
     }
   }, [onGoingData]);
 
+  useEffect(() => {
+    setInterval(() => {
+      let dt = moment().format("MMMM D, YYYY h:mm A");
+      setServerTime(dt);
+    }, 1000);
+  }, []);
+
   return (
     <Grid
       container
@@ -259,7 +267,7 @@ function HeaderAlertInformation(props) {
             }}
           >
             <Typography variant="h4">Current alert status</Typography>
-            <Typography variant="h5">{data_timestamp}</Typography>
+            <Typography variant="h5">{server_time}</Typography>
             <Divider variant="middle" style={{ padding: 10 }} />
             <div
               style={{
